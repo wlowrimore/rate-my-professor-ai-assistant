@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { IBM_Plex_Sans as Inter } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "./providers/SessionProvider";
+import Header from "./components/Header.";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,8 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <SessionWrapper>
-      <html lang="en">
+      <html lang="en" className="bg-gray-700 py-6">
         <body className={inter.className}>
+          <Header />
           <main>{children}</main>
         </body>
       </html>
