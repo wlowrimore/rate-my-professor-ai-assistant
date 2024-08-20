@@ -1,0 +1,34 @@
+{
+  "reviews": [
+    {
+      "professor": "Prof1",
+      "review": "Great professor...",
+      "subject": "Math",
+      "stars": 5
+    },
+    {
+      "professor": "Prof2",
+      "review": "Moved a little too fast...",
+      "subject": "Chemistry",
+      "stars": 4
+    },
+    {
+      "professor": "Prof3",
+      "review": "Awesome Musician and very well spoken...",
+      "subject": "Jazz Studies",
+      "stars": 5
+    },
+    {
+      "professor": "Prof4",
+      "review": "Doesn't seem to care...",
+      "subject": "Sociology",
+      "stars": 1
+    },
+    {
+      "professor": "Prof5",
+      "review": "Decent professor, glad the class is over...",
+      "subject": "Math",
+      "stars": 2
+    }
+  ]
+}

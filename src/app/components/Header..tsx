@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
+import SiteLogo from "../../../public/logos/site-logo.webp";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -19,8 +20,15 @@ const Header = () => {
 
   return (
     <header className="w-screen max-w-[90rem] rounded-full mx-auto flex items-center justify-between py-2 px-8 bg-neutral-800 text-teal-300">
-      <div>
-        <h1 className="text-xl bont-bold uppercase">Rate my Professor</h1>
+      <div className="flex items-center gap-4">
+        <Image
+          src={SiteLogo}
+          alt="Rate My Professor"
+          width={48}
+          height={48}
+          className="rounded-full"
+        />
+        <h1 className="text-2xl tracking-widest uppercase">RMP</h1>
       </div>
       <nav>
         <ul>
