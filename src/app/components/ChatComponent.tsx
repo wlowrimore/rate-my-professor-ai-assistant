@@ -114,7 +114,7 @@ export default function ChatComponent() {
               />
               <button
                 onClick={sendMessage}
-                className="absolute right-10 bottom-6"
+                className="absolute right-8 bottom-4 hover:bg-neutral-200 p-2 rounded-full transition duration-200"
               >
                 <RiSendPlaneLine size={24} color="gray" />
               </button>

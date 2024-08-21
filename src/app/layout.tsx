@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans as Inter } from "next/font/google";
+import { Montserrat as Inter } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "./providers/SessionProvider";
 import Header from "./components/Header.";
