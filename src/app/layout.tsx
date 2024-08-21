@@ -18,10 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <SessionWrapper>
-      <html lang="en" className="bg-gray-700 py-6">
+      <html lang="en" className="bg-white">
         <body className={inter.className}>
-          <Header />
-          <main>{children}</main>
+          <main className="flex flex-col items-center mt-6">
+            <Header />
+            {children}
+          </main>
         </body>
       </html>
     </SessionWrapper>
