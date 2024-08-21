@@ -97,24 +97,29 @@ export default function ChatComponent() {
           className="flex bg-white gap-2 fixed bottom-0 left-[50.5%] translate-x-[-50.5%] right-0 w-[70rem]"
         >
           <div className="w-full flex flex-col items-center">
-            <input
-              ref={inputRef}
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="w-full min-h-[4.7rem] border border-neutral-100 shadow-md shadow-neutral-200 bg-blue-50/40 p-6 rounded-full outline-none placeholder:text-neutral-600"
-              placeholder="Enter your prompt here"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  sendMessage();
-                }
-              }}
-            />
-            <button onClick={sendMessage}>
-              <RiSendPlaneLine />
-            </button>
-            <p className="text-black text-sm mb-2">
+            <div className="relative w-full flex items-center">
+              <input
+                ref={inputRef}
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="w-full min-h-[4.7rem] border border-neutral-100 shadow-md shadow-neutral-200 bg-blue-50/40 p-6 rounded-full outline-none placeholder:text-neutral-600"
+                placeholder="Enter your prompt here"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    sendMessage();
+                  }
+                }}
+              />
+              <button
+                onClick={sendMessage}
+                className="absolute right-10 bottom-6"
+              >
+                <RiSendPlaneLine size={24} color="gray" />
+              </button>
+            </div>
+            <p className="text-black text-sm my-2">
               Powered by OpenAI | &copy; 2024 All Rights Reserved fakenamedev
             </p>
           </div>
