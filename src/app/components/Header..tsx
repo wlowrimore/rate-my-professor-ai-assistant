@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <header className="fixed bg-white top-0 right-0 left-0 z-10 w-full mx-auto flex items-center justify-between pt-2 pb-4 border-b border-white shadow-sm shadow-neutral-50 px-12 text-neutral-950 mb-12">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 py-4">
         <Image
           src={SiteLogo}
           alt="Rate My Professor"
@@ -29,7 +29,17 @@ const Header = () => {
           height={64}
           className="rounded-full bg-[#f4f0f9] border-2 border-neutral-800 p-1 cursor-pointer"
         />
-        <h1 className="text-3xl tracking-widest uppercase">RMP</h1>
+        <div className="flex flex-col">
+          <h1 className="text-3xl tracking-wide font-bold uppercase">
+            UniComp
+            <span className="bg-gradient-to-r from-transparent to-teal-800 border-r rounded-lg text-white pl-10 pr-2.5 ml-[-2rem]">
+              AI
+            </span>
+          </h1>
+          <p className="mt-[-0.3rem] tracking-wide capitalize">
+            rate your professors
+          </p>
+        </div>
       </div>
       <nav>
         <ul>
@@ -88,14 +98,14 @@ const Header = () => {
                   Access your profile
                 </h2>
               </Link>
-              <Link
-                href="/"
-                className="w-[70%] rounded-full hover:bg-gray-200/90 transition duration-200"
+              <div
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="cursor-pointer w-[70%] rounded-full hover:bg-gray-200/90 transition duration-200"
               >
                 <h2 className="w-full flex items-center justify-center py-2 px-4 border border-neutral-700 rounded-full font-bold tracking-wide text-blue-600 hover:text-blue-400">
                   SignOut of account
                 </h2>
-              </Link>
+              </div>
             </div>
           </div>
         </div>
