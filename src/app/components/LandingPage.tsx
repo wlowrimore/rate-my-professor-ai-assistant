@@ -1,8 +1,11 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
+import Link from "next/link";
 
 const LandingPage = () => {
+  const { data: session } = useSession();
+
   return (
     <main className="w-screen min-h-screen flex flex-col items-center pt-44 mx-auto">
       <div className="flex flex-col items-center mx-auto pb-8 border-b border-neutral-800">
@@ -27,14 +30,22 @@ const LandingPage = () => {
           </p>
         </article>
       </div>
-      <div className="">
-        <h2
-          onClick={() => signIn("google", { callbackUrl: "/" })}
-          className="p-3 text-lg cursor-pointer text-teal-800 font-bold hover:underline hover:text-blue-600 transition duration-200"
-        >
-          Get started now
-        </h2>
-      </div>
+      {!session ? (
+        <div className="">
+          <h2
+            onClick={() => signIn("google", { callbackUrl: "/" })}
+            className="p-3 text-lg cursor-pointer text-teal-800 font-bold hover:underline hover:text-blue-600 transition duration-200"
+          >
+            Get started now
+          </h2>
+        </div>
+      ) : (
+        <Link href="/directory" className="">
+          <h2 className="p-3 text-lg cursor-pointer text-teal-800 font-bold hover:underline hover:text-blue-600 transition duration-200">
+            Get started now
+          </h2>
+        </Link>
+      )}
     </main>
   );
 };

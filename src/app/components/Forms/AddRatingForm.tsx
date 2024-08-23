@@ -2,12 +2,20 @@
 
 import { useState, useEffect } from "react";
 
-const AddRatingForm = () => {
+const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
+  const [disabled, setDisabled] = useState<boolean>(true);
   const [rating, setRating] = useState<number>(0);
   const handleSubmit = () => {};
 
+  useEffect(() => {
+    setDisabled(!agreedToTerms);
+  }, [agreedToTerms]);
+
   return (
-    <form onSubmit={handleSubmit} className="py-6">
+    <form
+      onSubmit={handleSubmit}
+      className={`py-6 ${disabled ? "opacity-30" : "opacity-100"}`}
+    >
       <div className="flex flex-col space-y-1 mb-4">
         <label
           htmlFor="name"
@@ -17,6 +25,7 @@ const AddRatingForm = () => {
         </label>
         <input
           type="text"
+          disabled={!agreedToTerms}
           className="bg-[#f4f0f9] border-2 border-neutral-800 p-2 rounded outline-none"
         />
       </div>
@@ -29,6 +38,7 @@ const AddRatingForm = () => {
         </label>
         <input
           type="text"
+          disabled={!agreedToTerms}
           className="bg-[#f4f0f9] border-2 border-neutral-800 p-2 rounded outline-none"
         />
       </div>
@@ -41,6 +51,7 @@ const AddRatingForm = () => {
         </label>
         <input
           type="text"
+          disabled={!agreedToTerms}
           className="bg-[#f4f0f9] border-2 border-neutral-800 p-2 rounded outline-none"
         />
       </div>
@@ -53,6 +64,7 @@ const AddRatingForm = () => {
         </label>
         <input
           type="text"
+          disabled={!agreedToTerms}
           className="bg-[#f4f0f9] border-2 border-neutral-800 p-2 rounded outline-none"
         />
       </div>
@@ -61,10 +73,11 @@ const AddRatingForm = () => {
           htmlFor="review"
           className="text-sm text-neutral-500 font-semibold"
         >
-          Add your review for this professor
+          Add Your Review for this Professor
         </label>
         <textarea
           rows={5}
+          disabled={!agreedToTerms}
           className="bg-[#f4f0f9] border-2 border-neutral-800 p-2 rounded outline-none"
         />
       </div>
@@ -84,12 +97,22 @@ const AddRatingForm = () => {
                 value={num}
                 checked={rating === num}
                 onChange={() => setRating(num)}
-                className="mr-2"
+                disabled={!agreedToTerms}
+                className="mr-2 cursor-pointer"
               />
               <span>{num}</span>
             </label>
           ))}
         </div>
+      </div>
+      <div className="w-full">
+        <button
+          type="submit"
+          disabled={!agreedToTerms}
+          className="mt-2 w-full bg-neutral-900 text-white py-2 px-6 rounded-lg hover:bg-neutral-700 transition duration-200"
+        >
+          Add Rating
+        </button>
       </div>
     </form>
   );

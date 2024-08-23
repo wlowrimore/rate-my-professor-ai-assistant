@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <header className="fixed bg-white top-0 right-0 left-0 z-10 w-full mx-auto flex items-center justify-between pt-2 pb-4 border-b border-white shadow-sm shadow-neutral-50 px-12 text-neutral-950 mb-12">
-      <div className="flex items-center gap-2 py-4">
+      <Link href="/" className="flex items-center gap-2 py-4">
         <Image
           src={SiteLogo}
           alt="Rate My Professor"
@@ -40,7 +40,7 @@ const Header = () => {
             rate your professors
           </p>
         </div>
-      </div>
+      </Link>
       <nav>
         <ul>
           {session && session?.user?.image ? (
