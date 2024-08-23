@@ -7,7 +7,6 @@ import FAQ from "./FAQ";
 
 const DirectoryComponent = () => {
   const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false);
-  console.log("agreedToTerms", agreedToTerms);
 
   return (
     <main className="w-screen min-h-screen flex flex-col items-center justify-center mx-auto">

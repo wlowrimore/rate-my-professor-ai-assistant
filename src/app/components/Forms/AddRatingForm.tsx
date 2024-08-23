@@ -19,7 +19,15 @@ const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      console.log({ name, field, subject, professor, review, rating });
+      console.log({
+        agreedToTerms,
+        name,
+        field,
+        subject,
+        professor,
+        review,
+        rating,
+      });
       setSuccess(`Your rating was successfully submitted for ${name}!`);
     } catch (error) {
       console.error("Error:", error);
@@ -75,7 +83,7 @@ const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             disabled={!agreedToTerms}
-            className="bg-[#f4f0f9] border-2 border-neutral-800 p-2 rounded outline-none"
+            className="bg-[#f4f0f9] border-2 border-neutral-400 p-2 rounded outline-none"
           />
         </div>
         <div className="flex flex-col space-y-1 mb-4">
@@ -91,7 +99,7 @@ const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
             value={field}
             onChange={(e) => setField(e.target.value)}
             disabled={!agreedToTerms}
-            className="bg-[#f4f0f9] border-2 border-neutral-800 p-2 rounded outline-none"
+            className="bg-[#f4f0f9] border-2 border-neutral-400 p-2 rounded outline-none"
           />
         </div>
         <div className="flex flex-col space-y-1 mb-4">
@@ -107,7 +115,7 @@ const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             disabled={!agreedToTerms}
-            className="bg-[#f4f0f9] border-2 border-neutral-800 p-2 rounded outline-none"
+            className="bg-[#f4f0f9] border-2 border-neutral-400 p-2 rounded outline-none"
           />
         </div>
         <div className="flex flex-col space-y-1 mb-4">
@@ -123,7 +131,7 @@ const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
             value={professor}
             onChange={(e) => setProfessor(e.target.value)}
             disabled={!agreedToTerms}
-            className="bg-[#f4f0f9] border-2 border-neutral-800 p-2 rounded outline-none"
+            className="bg-[#f4f0f9] border-2 border-neutral-400 p-2 rounded outline-none"
           />
         </div>
         <div className="flex flex-col space-y-1 mb-4">
@@ -139,7 +147,7 @@ const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
             value={review}
             onChange={(e) => setReview(e.target.value)}
             disabled={!agreedToTerms}
-            className="bg-[#f4f0f9] border-2 border-neutral-800 p-2 rounded outline-none"
+            className="bg-[#f4f0f9] border-2 border-neutral-400 p-2 rounded outline-none"
           />
         </div>
         <div className="flex flex-col space-y-1 mb-4">
