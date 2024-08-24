@@ -1,0 +1,41 @@
+datasource db {
+  provider = "postgresql"
+  url = "postgresql://lowrimoreAdmin:WNTM@family19@localhost:5432/uniCode_db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// User model
+model User {
+  id        String  @id @default(cuid()) @unique // Use cuid() for unique string IDs
+  name      String  @unique
+  email     String  @unique
+  createdAt DateTime @default(now())
+  Rating    Rating[]   // One-to-many relationship with Rating model
+}
+
+// Professor model
+model Professor {
+  id          Int      @id @default(autoincrement()) @unique
+  name        String  @unique
+  university  String
+  fieldOfStudy String
+  subject     String
+  Rating      Rating[]   // One-to-many relationship with Rating model
+}
+
+// Rating model (full review)
+model Rating {
+  id          Int      @id @default(autoincrement()) @unique
+  userId      String
+  professorId Int
+  rating      Int
+  review      String
+  createdAt  DateTime @default(now())
+
+  user     User  @relation(fields: [userId], references: [id]) // Many-to-one with User
+  professor Professor  @relation(fields: [professorId], references: [id]) // Many-to-one with Professor 
+}
+

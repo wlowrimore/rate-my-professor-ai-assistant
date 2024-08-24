@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
   const [disabled, setDisabled] = useState<boolean>(true);
-  const [name, setName] = useState<string>("");
+  const [university, setUniversity] = useState<string>("");
   const [field, setField] = useState<string>("");
   const [subject, setSubject] = useState<string>("");
   const [professor, setProfessor] = useState<string>("");
@@ -16,21 +16,37 @@ const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
   const [success, setSuccess] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      console.log({
-        agreedToTerms,
-        name,
-        field,
-        subject,
-        professor,
-        review,
-        rating,
+      setIsLoading(true);
+
+      const res = fetch("/api/ratings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          universityName: university,
+          fieldOfStudy: field,
+          subject,
+          professorName: professor,
+          review,
+          rating,
+        }),
       });
-      setSuccess(`Your rating was successfully submitted for ${name}!`);
+
+      if (!(await res).ok) {
+        throw new Error("Failed to submit rating");
+      } else {
+        setIsLoading(false);
+        setSuccess(`Your rating was successfully submitted for ${name}!`);
+        console.log("Response:", res);
+      }
     } catch (error) {
-      console.error("Error:", error);
+      setError("Failed to submit rating");
+      setIsLoading(false);
+      console.error(error);
     }
 
     setSubmitted(true);
@@ -38,7 +54,7 @@ const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
 
   useEffect(() => {
     if (submitted) {
-      setName("");
+      setUniversity("");
       setField("");
       setSubject("");
       setProfessor("");
@@ -79,9 +95,9 @@ const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
           </label>
           <input
             type="text"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name="university"
+            value={university}
+            onChange={(e) => setUniversity(e.target.value)}
             disabled={!agreedToTerms}
             className="bg-[#f4f0f9] border-2 border-neutral-400 p-2 rounded outline-none"
           />
