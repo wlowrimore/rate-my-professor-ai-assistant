@@ -3,6 +3,11 @@ import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
+export default async function GET(request: Request, response: Response) {
+  const professors = await prisma.professor.findMany();
+  return NextResponse.json({ professors });
+}
+
 export async function POST(request: Request) {
   const body = await request.json();
   try {
