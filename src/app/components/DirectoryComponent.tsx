@@ -2,11 +2,33 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import AddRatingForm from "./Forms/AddRatingForm";
 import FAQ from "./FAQ";
 
 const DirectoryComponent = () => {
   const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false);
+  const [usersReviews, setUsersReviews] = useState<any>([]);
+
+  const { data: session } = useSession();
+
+  // useEffect(() => {
+  //   const getRatings = async () => {
+  //     try {
+  //       const response = await fetch("/api/ratings");
+  //       const data = await response.json();
+  //       console.log(data);
+  //       if (session?.user?.email === data.email) {
+  //         setUsersReviews(data);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   getRatings();
+  // }, []);
+
+  // console.log("Users reviews: ", usersReviews);
 
   return (
     <main className="w-screen min-h-screen flex flex-col items-center justify-center mx-auto">

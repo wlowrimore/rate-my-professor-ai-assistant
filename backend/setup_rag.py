@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 from pinecone import ServerlessSpec, Pinecone
-from openai import OpenAI
+from openai import OpenAI # type: ignore
 import os
 import json
 

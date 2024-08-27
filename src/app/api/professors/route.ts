@@ -5,58 +5,56 @@ import { OpenAI } from "openai";
 interface PineconeRecord<T> {
   id: string;
   values: number[];
+  sparseValues: Record<string, number[]>;
   metadata: Record<string, string | number | boolean>;
 }
 
 interface Payload {
-  vectors: PineconeRecord<RecordMetadata>[];
-  namespace: string;
-  batch_size: number;
-  top_k: number;
-  include_values: boolean;
-  include_metadata: boolean;
+  id: string;
+  values: number[];
+  sparseValues: Record<string, number[]>;
+  metadata: Record<string, string | number | boolean>;
+}
+
+interface Rating {
+  id: string;
+  stars: number;
+  review: string;
 }
 
 const prisma = new PrismaClient();
 const pc = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY || "",
 });
+const index = pc.index("rag");
 
-async function fetchAndVectorizeData() {
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY || "",
+});
+
+export async function searchProfessors(query: number[]) {
+  // Vectorize the query using OpenAI
+  const queryVector = await openai.embeddings.create({
+    input: query,
+    model: "text-embedding-ada-002",
+  });
+
+  // Query Pinecone for similar vectors
+  const results = await pc.Index("rag").query({
+    vector: queryVector.data[0].embedding,
+    topK: 3,
+  });
+  console.log("Results:", results);
+
+  // Retrieve professor details from PostgreSQL based on the results
+  const professorIds = Array.isArray(results)
+    ? results.map((result: any) => result.id)
+    : [];
   const professors = await prisma.professor.findMany({
-    include: {
-      Rating: true,
+    where: {
+      id: { in: professorIds },
     },
   });
 
-  const vectors: any = professors.map(async (professor) => {
-    const openai = new OpenAI();
-    const vector = openai.embeddings.create({
-      model: "text-embedding-ada-002",
-      input: `${professor.name} ${professor.subject} ${professor.university} ${professor.fieldOfStudy}`,
-    });
-    return {
-      id: professor.id.toString(),
-      values: (await vector).data[0].embedding,
-      metadata: {
-        professorName: professor.name,
-        subject: professor.subject,
-        university: professor.university,
-        fieldOfStudy: professor.fieldOfStudy,
-        rating: professor.Rating,
-      },
-    };
-  });
-  const payload: Payload = {
-    vectors: await Promise.all(vectors),
-    namespace: "ns1",
-    batch_size: 100,
-    top_k: 3,
-    include_values: true,
-    include_metadata: true,
-  };
-
-  await pc.Index("rag").upsert(payload as any);
+  return professors;
 }
-
-fetchAndVectorizeData();

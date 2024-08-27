@@ -12,7 +12,6 @@ model User {
   id        String  @id @default(cuid()) @unique // Use cuid() for unique string IDs
   name      String  @unique
   email     String  @unique
-  createdAt DateTime @default(now())
   Rating    Rating[]   // One-to-many relationship with Rating model
 }
 
@@ -33,9 +32,14 @@ model Rating {
   professorId Int
   rating      Int
   review      String
-  createdAt  DateTime @default(now())
 
   user     User  @relation(fields: [userId], references: [id]) // Many-to-one with User
   professor Professor  @relation(fields: [professorId], references: [id]) // Many-to-one with Professor 
+}
+
+model UpdateCounter {
+  id Int @id @default(autoincrement())
+  count Int @default(0)
+  lastReset DateTime @default(now())
 }
 
