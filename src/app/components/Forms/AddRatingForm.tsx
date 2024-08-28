@@ -174,31 +174,33 @@ const AddRatingForm = ({ agreedToTerms }: { agreedToTerms: boolean }) => {
             Rate Your Professor (1-5) with 1 being the worst and 5 being the
             best
           </label>
-          <div className="flex space-x-4">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <label key={num} className="flex items-center">
-                <input
-                  type="radio"
-                  name="rating"
-                  value={num}
-                  checked={rating === num}
-                  onChange={() => setRating(num)}
-                  disabled={!agreedToTerms}
-                  className="mr-2 cursor-pointer"
-                />
-                <span>{num}</span>
-              </label>
-            ))}
+          <div className="flex flex-col">
+            <div className="flex space-x-4 mt-2">
+              {[1, 2, 3, 4, 5].map((num) => (
+                <label key={num} className="flex items-center">
+                  <input
+                    type="radio"
+                    name="rating"
+                    value={num}
+                    checked={rating === num}
+                    onChange={() => setRating(num)}
+                    disabled={!agreedToTerms}
+                    className="mr-2 cursor-pointer"
+                  />
+                  <span>{num}</span>
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="w-full">
-          <button
-            type="submit"
-            disabled={!agreedToTerms}
-            className="mt-2 w-full bg-neutral-900 text-white py-2 px-6 rounded-lg hover:bg-neutral-700 transition duration-200"
-          >
-            Add Rating
-          </button>
+          <div className="w-full">
+            <button
+              type="submit"
+              disabled={!agreedToTerms}
+              className="mt-6 md:mt-2 w-full bg-neutral-900 text-white py-2 px-6 rounded-lg hover:bg-neutral-700 transition duration-200"
+            >
+              Add Rating
+            </button>
+          </div>
         </div>
       </form>
     </>

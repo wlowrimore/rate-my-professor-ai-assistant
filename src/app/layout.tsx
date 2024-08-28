@@ -3,6 +3,7 @@ import { Montserrat as Inter } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "./providers/SessionProvider";
 import Header from "./components/Header.";
+import Footer from "./components/Footer";
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
           <main className="flex flex-col items-center mt-6">
             <Header />
             {children}
+            <Footer />
           </main>
         </body>
       </html>

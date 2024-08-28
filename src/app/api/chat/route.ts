@@ -3,9 +3,9 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import OpenAI from "openai";
 
 const systemPrompt = `
-  You are a rate my professor agent to help students find classes, that takes in user questions and answewrs them.
-  For every user question, the top 3 professors that match the user question are returned.
-  Use them to answer the question if needed.
+  You are a rate my professor agent to help students find classes, that takes in user questions and answers them.
+  For every user question, the top 3 professors that match the user question are returned with their ratings.
+  Use the provided professor information to answer the question accurately. If the information is not directly relevant, say so.
 `;
 
 export async function POST(req: any) {
@@ -14,46 +14,51 @@ export async function POST(req: any) {
   const pc = new Pinecone({
     apiKey: process.env.PINECONE_API_KEY as string,
   });
-  const index = pc.index("rag").namespace("ns1");
+  const index = pc.index("rag");
   const openai = new OpenAI();
 
-  const text = data[data.length - 1].content as string;
+  const userQuery = data[data.length - 1].content as string;
+
+  // Generate embedding for user query
   const embedding = await openai.embeddings.create({
     model: "text-embedding-3-small",
-    input: text,
+    input: userQuery,
     encoding_format: "float",
   });
 
+  // Query Pinecone with the embedding
   const results = await index.query({
+    vector: embedding.data[0].embedding,
     topK: 5,
     includeMetadata: true,
-    vector: embedding.data[0].embedding,
   });
 
-  let resultString = "";
+  // Format retrieved information
+  let contextString = "Relevant Professor Information:\n";
   results.matches.forEach((match) => {
-    resultString += `
-    Returned Results:
-    Professor: ${match.id}
-    Review: ${match.metadata?.stars}
+    contextString += `
+    Professor: ${match.metadata?.professorName || match.id}
     Subject: ${match.metadata?.subject}
-    Stars: ${match.metadata?.stars}
-    \n\n
+    University: ${match.metadata?.universityName}
+    Field of Study: ${match.metadata?.fieldOfStudy}
+    Rating: ${match.metadata?.rating}
+    Review: ${match.metadata?.review}
+    \n
     `;
   });
+  console.log("Results:", results);
 
-  const lastMessage = data[data.length - 1];
-  const lastMessageContent = lastMessage.content + resultString;
-  const lastDataWithoutLastMessage = data.slice(0, data.length - 1);
+  // Construct messages for OpenAI, including context
+  const messages = [
+    { role: "system", content: systemPrompt },
+    ...data.slice(0, -1), // Include previous conversation
+    { role: "user", content: contextString }, // Add retrieved context
+    { role: "user", content: userQuery }, // Add the user's query
+  ];
 
   const completion = await openai.chat.completions.create({
-    messages: [
-      { role: "system", content: systemPrompt },
-      ...lastDataWithoutLastMessage,
-      { role: "user", content: lastMessageContent },
-      { role: "user", content: lastMessageContent },
-    ],
-    model: "gpt-3.5-turbo",
+    messages: messages,
+    model: "gpt-4o-mini",
     stream: true,
   });
 

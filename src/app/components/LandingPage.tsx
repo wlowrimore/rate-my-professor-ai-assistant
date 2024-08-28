@@ -7,13 +7,13 @@ const LandingPage = () => {
   const { data: session } = useSession();
 
   return (
-    <main className="w-screen min-h-screen flex flex-col items-center pt-44 mx-auto">
-      <div className="flex flex-col items-center mx-auto pb-8 border-b border-neutral-800">
-        <h1 className="text-5xl text-teal-800 font-bold">
+    <main className="w-screen min-h-screen flex flex-col items-center py-20 md:pt-44 mx-auto">
+      <div className="flex flex-col items-center mx-auto md:pb-8 px-4 md:px-0 md:border-b border-neutral-800">
+        <h1 className="text-4xl md:text-5xl text-teal-800 font-bold">
           Honest Reviews. Informed Choices
         </h1>
-        <article className="mt-3 max-w-[54rem]">
-          <p className="text-xl tracking-wide">
+        <article className="mt-3 mb-3 md:mb-0 max-w-[54rem]">
+          <p className="text-lg md:text-xl md:tracking-wide">
             Whether you are a new student searching for your college of choice,
             an experienced student looking to continue your higher education, or
             even a returning student looking to finally complete your
@@ -21,7 +21,7 @@ const LandingPage = () => {
             <b>UniComp AI</b> is here to make that choice a little less painful
             and a lot more catered to your learning habits.
           </p>
-          <p className="text-lg mt-3 tracking-wide text-neutral-700">
+          <p className="text-[1rem] md:text-lg mt-3 md:tracking-wide text-neutral-700">
             <b>UniComp AI</b>&nbsp;is a powerful AI assistant that will be a
             beneficial asset to any and all students. You will have instant
             access to the most up-to-date reviews of universities and their

@@ -2,7 +2,7 @@ import React from "react";
 
 const FAQ = () => {
   return (
-    <article className="flex flex-col overflow-y-auto h-[95%] mt-2">
+    <article className="flex flex-col overflow-y-auto md:h-[95%] md:mt-2 pb-12 md:pb-0">
       <h2 className="text-xl font-semibold mb-2">General Questions</h2>
       <div className="mb-2">
         <h2 className="text-neutral-600 font-semibold">What is UniComp AI?</h2>
