@@ -13,7 +13,7 @@ const DirectoryComponent = () => {
   const { data: session } = useSession();
 
   return (
-    <main className="w-screen min-h-screen flex flex-col items-center justify-center mx-auto my-20 md:mt-28 lg:my-12">
+    <main className="w-screen min-h-screen flex flex-col items-center justify-center mx-auto my-20 md:mt-28 lg:my-16">
       <div className="flex flex-col md:flex-row justify-between w-full max-w-[80rem] max-h-[60rem] h-[56rem] md:border border-neutral-400 md:rounded-lg md:shadow-lg shadow-neutral-400">
         <div className="w-full p-6 border-r border-neutral-400">
           <h2 className="text-xl font-semibold text-neutral-700 pb-2 border-b border-neutral-700">
