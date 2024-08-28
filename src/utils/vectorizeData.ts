@@ -2,7 +2,23 @@ import { NextResponse } from "next/server";
 import { PrismaClient, Prisma } from "@prisma/client";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { OpenAI } from "openai";
-import { Professor, Rating } from "@prisma/client";
+
+interface Professor {
+  id: number;
+  name: string;
+  subject: string;
+  university: string;
+  fieldOfStudy: string;
+  Rating: Rating[];
+}
+
+interface Rating {
+  id: number;
+  userId: string;
+  professorId: number;
+  rating: number;
+  review: string;
+}
 
 interface VectorData {
   id: string;
@@ -35,12 +51,12 @@ export async function fetchAndVectorizeData() {
   });
   console.log(`Found ${professors.length} professors in the database`);
 
-  interface ProfessorWithRatings extends Professor {
-    Rating: Rating[];
-  }
+  // interface ProfessorWithRatings extends Professor {
+  //   Rating: Rating[];
+  // }
 
   const vectors = await Promise.all(
-    professors.map(async (professor: ProfessorWithRatings) => {
+    professors.map(async (professor: Professor) => {
       try {
         const vectorResponse = await openai.embeddings.create({
           model: "text-embedding-ada-002",
