@@ -43,11 +43,8 @@ function preprocessQuery(userQuery: string) {
 }
 
 export async function POST(req: any) {
-  console.log("Received Post Request");
   try {
     const data = await req.json();
-    console.log("Received data:", data);
-
     const pc = new Pinecone({
       apiKey: process.env.PINECONE_API_KEY as string,
     });
@@ -55,7 +52,6 @@ export async function POST(req: any) {
     const openai = new OpenAI();
 
     const userQuery = data[data.length - 1].content as string;
-    console.log("User query:", userQuery);
 
     // Generate embedding for user query
     const embedding = await openai.embeddings.create({
@@ -65,7 +61,6 @@ export async function POST(req: any) {
     });
 
     // Query Pinecone with the embedding
-    console.log("Querying Pinecone");
     const results = await index.query({
       vector: embedding.data[0].embedding,
       topK: 3,
@@ -85,7 +80,6 @@ export async function POST(req: any) {
       \n
       `;
     });
-    console.log("Context String:", contextString);
 
     // Construct messages for OpenAI, including context
     const messages = [
@@ -95,7 +89,6 @@ export async function POST(req: any) {
       { role: "user", content: userQuery }, // Add the user's query
     ];
 
-    console.log("Sending request to OpenAI");
     const completion = await openai.chat.completions.create({
       messages: messages,
       model: "gpt-4o-mini",
@@ -119,7 +112,6 @@ export async function POST(req: any) {
       },
     });
 
-    console.log("Returning stram response");
     return new NextResponse(stream);
   } catch (error) {
     console.error("Error in POST handler:", error);
