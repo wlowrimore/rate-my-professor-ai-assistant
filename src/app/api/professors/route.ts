@@ -32,7 +32,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || "",
 });
 
-export async function searchProfessors(query: number[]) {
+export async function GET(query: number[]) {
   // Vectorize the query using OpenAI
   const queryVector = await openai.embeddings.create({
     input: query,
