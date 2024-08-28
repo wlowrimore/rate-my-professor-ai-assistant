@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Professor, Rating } from "@prisma/client";
 import { Pinecone, RecordMetadata } from "@pinecone-database/pinecone";
 import { OpenAI } from "openai";
 
@@ -35,7 +35,7 @@ export async function fetchAndVectorizeData() {
   console.log(`Found ${professors.length} professors in the database`);
 
   const vectors = await Promise.all(
-    professors.map(async (professor) => {
+    professors.map(async (professor: Professor & { Rating: Rating[] }) => {
       try {
         const vectorResponse = await openai.embeddings.create({
           model: "text-embedding-ada-002",
