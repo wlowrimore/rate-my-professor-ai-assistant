@@ -126,7 +126,7 @@ const FAQ = () => {
         </h2>
         <p>
           If you encounter any issues, please report them to our support team.
-          We'll do our best to address the problem promptly.
+          We&apos;ll do our best to address the problem promptly.
         </p>
       </div>
       <div className="mb-2">

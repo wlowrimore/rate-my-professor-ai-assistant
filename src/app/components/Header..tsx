@@ -108,7 +108,7 @@ const Header = () => {
                   }}
                   className="w-[70%]"
                 >
-                  <h2 className="w-full flex items-center py-2 px-4 font-bold tracking-wide text-blue-600 hover:text-blue-400">
+                  <h2 className="w-full flex items-center -mb-2 py-2 px-4 tracking-wide text-neutral-800 hover:text-blue-400">
                     Home
                   </h2>
                 </Link>
@@ -119,7 +119,7 @@ const Header = () => {
                   }}
                   className="w-[70%]"
                 >
-                  <h2 className="w-full flex items-center py-2 px-4 font-bold tracking-wide text-blue-600 hover:text-blue-400">
+                  <h2 className="w-full flex items-center -mb-2 py-2 px-4 tracking-wide text-neutral-800 hover:text-blue-400">
                     Visit Search AI
                   </h2>
                 </Link>
@@ -130,7 +130,7 @@ const Header = () => {
                   }}
                   className="w-[70%]"
                 >
-                  <h2 className="w-full flex items-center py-2 px-4 font-bold tracking-wide text-blue-600 hover:text-blue-400">
+                  <h2 className="w-full flex items-center -mb-2 py-2 px-4 tracking-wide text-neutral-800 hover:text-blue-400">
                     Contribute Your Ratings
                   </h2>
                 </Link>
@@ -141,7 +141,7 @@ const Header = () => {
                   }}
                   className="w-[70%]"
                 >
-                  <h2 className="w-full flex items-center py-2 px-4 font-bold tracking-wide text-blue-600 hover:text-blue-400">
+                  <h2 className="w-full flex items-center py-2 px-4 tracking-wide text-neutral-800 hover:text-blue-400">
                     FAQ
                   </h2>
                 </Link>
@@ -149,7 +149,7 @@ const Header = () => {
                   onClick={() => signOut({ callbackUrl: "/" })}
                   className="cursor-pointer w-full transition duration-200 py-4"
                 >
-                  <h2 className="w-full flex items-center py-2 px-4  font-bold tracking-wide text-neutral-800 hover:text-blue-400">
+                  <h2 className="w-full flex items-center py-2 px-4 text-[1rem] font-semibold tracking-wide text-neutral-600 hover:text-blue-400">
                     SignOut
                     <span className="pl-1">
                       <PiSignOutBold size={20} />
