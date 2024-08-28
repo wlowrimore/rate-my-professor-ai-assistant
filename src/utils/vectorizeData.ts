@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { OpenAI } from "openai";
 
@@ -34,8 +34,12 @@ export async function fetchAndVectorizeData() {
   });
   console.log(`Found ${professors.length} professors in the database`);
 
+  type ProfessorWithRatings = Prisma.ProfessorGetPayload<{
+    include: { Rating: true };
+  }>;
+
   const vectors = await Promise.all(
-    professors.map(async (professor) => {
+    professors.map(async (professor: ProfessorWithRatings) => {
       try {
         const vectorResponse = await openai.embeddings.create({
           model: "text-embedding-ada-002",
@@ -71,8 +75,8 @@ export async function fetchAndVectorizeData() {
             subject: professor.subject,
             university: professor.university,
             fieldOfStudy: professor.fieldOfStudy,
-            rating: professor.Rating?.[0]?.rating || 0,
-            review: professor.Rating?.[0]?.review || "",
+            rating: professor.Rating[0]?.rating || 0,
+            review: professor.Rating[0]?.review || "",
           },
         };
       } catch (error) {
