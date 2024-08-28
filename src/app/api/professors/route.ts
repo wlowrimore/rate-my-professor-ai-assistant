@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Pinecone, RecordMetadata } from "@pinecone-database/pinecone";
 import { OpenAI } from "openai";
+import { NextResponse } from "next/server";
 
 interface PineconeRecord<T> {
   id: string;
@@ -32,29 +33,51 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || "",
 });
 
-export async function GET(query: number[]) {
-  // Vectorize the query using OpenAI
-  const queryVector = await openai.embeddings.create({
-    input: query,
-    model: "text-embedding-ada-002",
-  });
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get("query");
 
-  // Query Pinecone for similar vectors
-  const results = await pc.Index("rag").query({
-    vector: queryVector.data[0].embedding,
-    topK: 3,
-  });
-  console.log("Results:", results);
+  if (!query) {
+    return NextResponse.json(
+      { error: "Query parameter is required" },
+      { status: 400 }
+    );
+  }
 
-  // Retrieve professor details from PostgreSQL based on the results
-  const professorIds = Array.isArray(results)
-    ? results.map((result: any) => result.id)
-    : [];
-  const professors = await prisma.professor.findMany({
-    where: {
-      id: { in: professorIds },
-    },
-  });
+  try {
+    // Vectorize the query using OpenAI
+    const queryVector = await openai.embeddings.create({
+      input: query,
+      model: "text-embedding-ada-002",
+    });
 
-  return professors;
+    // Query Pinecone for similar vectors
+    const results = await index.query({
+      vector: queryVector.data[0].embedding,
+      topK: 3,
+    });
+
+    console.log("Results:", results);
+
+    // Retrieve professor details from PostgreSQL based on the results
+    const professorIds = results.matches
+      .map((match) => {
+        const id = parseInt(match.id, 10);
+        return isNaN(id) ? undefined : id;
+      })
+      .filter((id): id is number => id !== undefined);
+    const professors = await prisma.professor.findMany({
+      where: {
+        id: { in: professorIds },
+      },
+    });
+
+    return NextResponse.json(professors);
+  } catch (error) {
+    console.error("Error processing request:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
 }
