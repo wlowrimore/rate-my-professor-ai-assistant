@@ -17,7 +17,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Deployed on Vercel
 
-Visit UniComp AI [here](https://memoize-six.vercel.app/),
+Visit UniComp AI [here](https://unicomp-ai.vercel.app/),
 or on [my website](http://www.williamlowrimore.com)
 
 <img src="public/screenshots/home.webp" alt="William Lowrimore">

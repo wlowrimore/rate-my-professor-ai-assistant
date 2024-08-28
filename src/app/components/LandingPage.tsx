@@ -33,7 +33,7 @@ const LandingPage = () => {
       {!session ? (
         <div className="">
           <h2
-            onClick={() => signIn("google", { callbackUrl: "/chat" })}
+            onClick={() => signIn("google", { callbackUrl: "/search-ai" })}
             className="p-3 text-lg cursor-pointer text-teal-800 font-bold hover:underline hover:text-blue-600 transition duration-200"
           >
             Get started now
