@@ -3,7 +3,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { OpenAI } from "openai";
 
-interface Professor {
+export interface Professor {
   id: number;
   name: string;
   subject: string;

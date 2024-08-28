@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { Pinecone, RecordMetadata } from "@pinecone-database/pinecone";
 import { OpenAI } from "openai";
 import { NextResponse } from "next/server";
@@ -66,11 +66,12 @@ export async function GET(request: Request) {
         return isNaN(id) ? undefined : id;
       })
       .filter((id): id is number => id !== undefined);
-    const professors = await prisma.professor.findMany({
-      where: {
-        id: { in: professorIds },
-      },
-    });
+    const professors =
+      await prisma.professor.findMany<Prisma.ProfessorFindManyArgs>({
+        where: {
+          id: { in: professorIds },
+        },
+      });
 
     return NextResponse.json(professors);
   } catch (error) {
