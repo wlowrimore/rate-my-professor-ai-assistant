@@ -1,4 +1,4 @@
-import { PrismaClient, Professor, User, Rating } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import { fetchAndVectorizeData } from "@/utils/vectorizeData";
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
       );
     }
 
-    let professor: Professor | null = await prisma.professor.findUnique({
+    let professor = await prisma.professor.findUnique({
       where: { name: professorName },
     });
 
