@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { PrismaClient, Prisma } from "@prisma/client";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { OpenAI } from "openai";
+import { Professor, Rating } from "@prisma/client";
 
 interface VectorData {
   id: string;
@@ -34,9 +35,9 @@ export async function fetchAndVectorizeData() {
   });
   console.log(`Found ${professors.length} professors in the database`);
 
-  type ProfessorWithRatings = Prisma.ProfessorGetPayload<{
-    include: { Rating: true };
-  }>;
+  interface ProfessorWithRatings extends Professor {
+    Rating: Rating[];
+  }
 
   const vectors = await Promise.all(
     professors.map(async (professor: ProfessorWithRatings) => {
