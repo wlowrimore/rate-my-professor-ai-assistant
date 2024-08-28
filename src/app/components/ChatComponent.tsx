@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { RiSendPlaneLine } from "react-icons/ri";
@@ -38,6 +39,7 @@ export default function ChatComponent() {
     ]);
 
     try {
+      console.log("Sending request to /api/chat");
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -45,6 +47,8 @@ export default function ChatComponent() {
         },
         body: JSON.stringify([...messages, { role: "user", content: message }]),
       });
+
+      console.log("Response Status: ", response.status);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -58,18 +62,20 @@ export default function ChatComponent() {
         { role: "assistant", content: "" },
       ]);
 
+      let accumulatedContent = "";
       while (true) {
         const { done, value } = await reader!.read();
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
+        accumulatedContent += chunk;
         setMessages((prevMessages) => {
           const newMessages = [...prevMessages];
-          newMessages[newMessages.length - 1].content += chunk;
+          newMessages[newMessages.length - 1].content = accumulatedContent;
           return newMessages;
         });
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error in send message", error);
       setError(
         `Something went wrong: ${
           error instanceof Error ? error.message : String(error)
@@ -114,7 +120,9 @@ export default function ChatComponent() {
                       : "bg-[#e5f4ff] md:px-4"
                   }`}
                 >
-                  <p className="text-xs md:text-lg w-full">{message.content}</p>
+                  <ReactMarkdown className="text-xs md:text-lg w-full">
+                    {message.content}
+                  </ReactMarkdown>
                 </div>
               </div>
             ))}
@@ -129,9 +137,6 @@ export default function ChatComponent() {
         >
           <div className="w-full mx-auto flex flex-col items-center">
             <div className="w-[26%] md:w-[80%] ml-2 md:ml-0 py-1 md:py-2 flex items-center border-2 rounded-xl md:rounded-full bg-blue-100/50">
-              {/* {error && (
-                <p className="text-red-500 text-xs md:text-lg">{error}</p>
-              )} */}
               <input
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}

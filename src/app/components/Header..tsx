@@ -7,6 +7,7 @@ import Image from "next/image";
 import SiteLogo from "../../../public/logos/site-logo.webp";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { PiSignOutBold } from "react-icons/pi";
+import { CgMenuGridR } from "react-icons/cg";
 import Link from "next/link";
 
 const Header = () => {
@@ -45,29 +46,28 @@ const Header = () => {
       <nav>
         <ul>
           {session && session?.user?.image ? (
-            <li onClick={handleToggleMenu} className="cursor-pointer">
+            <li
+              onClick={handleToggleMenu}
+              className="flex items-center gap-4 cursor-pointer"
+            >
+              <span>
+                <CgMenuGridR size={36} />
+              </span>
               <Image
                 src={session.user.image}
                 alt={session.user.name as string}
                 width={64}
                 height={64}
-                className="rounded-full inline bg-[#f4f0f9] md:border-2 border-neutral-800 p-1 w-10 h-10 md:w-16 md:h-16"
+                className="rounded-full inline bg-[#f4f0f9] md:border-2 border-neutral-800 p-1 w-10 h-10 md:w-14 md:h-14"
               />
             </li>
-          ) : (
-            <li
-              onClick={() => signIn("google", { callback: "/" })}
-              className="cursor-pointer hover:text-teal-500 transition duration-200"
-            >
-              SignIn
-            </li>
-          )}
+          ) : null}
         </ul>
       </nav>
 
       {/* Menu */}
       {isMenuOpen && session && (
-        <div className="w-[18rem] md:w-[22rem] h-[35rem] md:h-[40rem] bg-[#F0F4F9] absolute top-20 right-3 md:right-14 rounded-3xl shadow-lg shadow-neutral-600">
+        <div className="w-[18rem] md:w-[22rem] h-[35rem] md:h-[40rem] bg-[#F0F4F9] absolute top-[5.5rem] right-3 md:right-14 rounded-3xl shadow-lg shadow-neutral-600">
           <div className="w-full flex justify-end p-2">
             <span
               onClick={handleToggleMenu}

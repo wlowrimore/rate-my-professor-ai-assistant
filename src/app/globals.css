@@ -7,3 +7,16 @@
     display: none;
   }
 }
+
+.message.assistant strong {
+  font-weight: bold;
+}
+
+.message.assistant em {
+  font-style: italic;
+}
+
+.message.assistant ul,
+.message.assistant ol {
+  margin-left: 20px;
+}
