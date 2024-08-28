@@ -76,9 +76,19 @@ export async function GET(request: Request) {
     return NextResponse.json(professors);
   } catch (error) {
     console.error("Error processing request:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.error("Error querying professors from database:", error);
+      return NextResponse.json(
+        { error: "Internal Server Error" },
+        { status: 500 }
+      );
+    } else {
+      console.error("Unhandled error:", error);
+      return NextResponse.json(
+        { error: "Internal Server Error" },
+        { status: 500 }
+      );
+    }
   }
 }
